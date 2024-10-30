@@ -8,23 +8,25 @@ import { HashRouter } from 'react-router-dom';
 import './index.scss';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import TasksService from './services/tasks.service';
-import TasksStore from './stores/tasks.store';
+import PostsService from './services/posts.service';
+import PostsStore from './stores/posts.store';
 import UserStore from './stores/user.store';
 import AuthService from './services/auth.service';
-
 
 const services = {};
 const stores = {};
 
 stores.routerStore = new RouterStore();
 const browserHistory = createBrowserHistory();
-const history = syncHistoryWithStore(browserHistory, stores.routerStore);
+const history = syncHistoryWithStore(
+  browserHistory,
+  stores.routerStore
+);
 
-services.tasksService = new TasksService(stores.routerStore);
+services.postsService = new PostsService(stores.routerStore);
 services.authService = new AuthService();
 
-stores.tasksStore = new TasksStore(services.tasksService);
+stores.postsStore = new PostsStore(services.postsService);
 stores.userStore = new UserStore(services.authService);
 
 const Root = (

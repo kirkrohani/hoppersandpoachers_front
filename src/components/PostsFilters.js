@@ -1,5 +1,12 @@
 import React, { Component } from 'react';
-import { Grid, FormControl, Select, MenuItem, TextField, InputAdornment } from '@material-ui/core';
+import {
+  Grid,
+  FormControl,
+  Select,
+  MenuItem,
+  TextField,
+  InputAdornment,
+} from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import styled from 'styled-components';
 import { inject } from 'mobx-react';
@@ -16,41 +23,37 @@ const ControlContainer = styled.div`
   padding: 10px;
 `;
 
-@inject('tasksStore')
-class TasksFilters extends Component {
+@inject('postsStore')
+class PostsFilters extends Component {
   filters$ = new Subject();
 
   constructor(props) {
     super(props);
 
     this.state = {
-      status: props.tasksStore.filters.status,
-      search: props.tasksStore.filters.search,
+      status: props.postsStore.filters.status,
+      search: props.postsStore.filters.search,
     };
 
-    this.filters$
-      .pipe(
-        debounceTime(500),
-      )
-      .subscribe(filters => {
-        props.tasksStore.updateFilters(filters);
-      });
+    this.filters$.pipe(debounceTime(500)).subscribe((filters) => {
+      props.postsStore.updateFilters(filters);
+    });
   }
 
   syncFilters = () => {
     const { status, search } = this.state;
     this.filters$.next({ status, search });
-  }
+  };
 
-  handleStatusFilterChange = e => {
+  handleStatusFilterChange = (e) => {
     const status = e.target.value;
     this.setState({ status }, this.syncFilters);
   };
 
-  handleSearchTermChange = e => {
+  handleSearchTermChange = (e) => {
     const search = e.target.value;
     this.setState({ search }, this.syncFilters);
-  }
+  };
 
   render() {
     return (
@@ -87,9 +90,9 @@ class TasksFilters extends Component {
                   displayEmpty
                 >
                   <MenuItem value="">No status filter</MenuItem>
-                  <MenuItem value={'OPEN'}>Open</MenuItem>
-                  <MenuItem value={'IN_PROGRESS'}>In Progress</MenuItem>
-                  <MenuItem value={'DONE'}>Done</MenuItem>
+                  <MenuItem value={'ACTIVE'}>Active</MenuItem>
+                  <MenuItem value={'DRAFT'}>Draft</MenuItem>
+                  <MenuItem value={'CLOSED'}>Closed</MenuItem>
                 </Select>
               </FormControl>
             </ControlContainer>
@@ -100,4 +103,4 @@ class TasksFilters extends Component {
   }
 }
 
-export default TasksFilters;
+export default PostsFilters;

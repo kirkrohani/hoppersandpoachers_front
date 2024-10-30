@@ -7,7 +7,7 @@ import {
   MenuItem,
   Select,
   FormControl,
-  Grid
+  Grid,
 } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import styled from 'styled-components';
@@ -22,14 +22,17 @@ const CardTitle = styled.h1`
   font-size: 22px;
 `;
 
-@inject('tasksStore')
-class Task extends Component {
-  deleteTask = () => {
-    this.props.tasksStore.deleteTask(this.props.id);
+@inject('postsStore')
+class Post extends Component {
+  deletePost = () => {
+    this.props.postsStore.deletePost(this.props.id);
   };
 
-  handleStatusChange = e => {
-    this.props.tasksStore.updateTaskStatus(this.props.id, e.target.value);
+  handleStatusChange = (e) => {
+    this.props.postsStore.updatePostStatus(
+      this.props.id,
+      e.target.value
+    );
   };
 
   render() {
@@ -45,7 +48,7 @@ class Task extends Component {
           <CardActions style={{ padding: '14px' }} disableSpacing>
             <Grid
               justify="space-between" // Add it here :)
-              container 
+              container
             >
               <Grid item>
                 <FormControl style={{ width: '140px' }}>
@@ -54,15 +57,15 @@ class Task extends Component {
                     onChange={this.handleStatusChange}
                     displayEmpty
                   >
-                    <MenuItem value={'OPEN'}>Open</MenuItem>
-                    <MenuItem value={'IN_PROGRESS'}>In Progress</MenuItem>
-                    <MenuItem value={'DONE'}>Done</MenuItem>
+                    <MenuItem value={'ACTIVE'}>Active</MenuItem>
+                    <MenuItem value={'DRAFT'}>Draft</MenuItem>
+                    <MenuItem value={'CLOSED'}>Closed</MenuItem>
                   </Select>
                 </FormControl>
               </Grid>
 
               <Grid item>
-                <IconButton onClick={this.deleteTask}>
+                <IconButton onClick={this.deletePost}>
                   <DeleteIcon color="error" />
                 </IconButton>
               </Grid>
@@ -74,4 +77,4 @@ class Task extends Component {
   }
 }
 
-export default Task;
+export default Post;

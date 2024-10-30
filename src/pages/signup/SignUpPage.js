@@ -52,9 +52,11 @@ class SignUpPage extends Component {
       <div className="fullscreen-wrapper">
         <FormContainer>
           <Heading>Join us!</Heading>
-          <p>Start managing tasks easily.</p>
+          <p>Start managing posts easily.</p>
 
-          {errorMessage && <ErrorMessage message={this.state.errorMessage} />}
+          {errorMessage && (
+            <ErrorMessage message={this.state.errorMessage} />
+          )}
 
           <div>
             <FormField
@@ -62,7 +64,9 @@ class SignUpPage extends Component {
               label="Username"
               margin="dense"
               variant="outlined"
-              onChange={e => this.setState({ username: e.target.value })}
+              onChange={(e) =>
+                this.setState({ username: e.target.value })
+              }
             />
           </div>
           <div>
@@ -72,13 +76,16 @@ class SignUpPage extends Component {
               margin="dense"
               variant="outlined"
               type="password"
-              onChange={e => this.setState({ password: e.target.value })}
+              onChange={(e) =>
+                this.setState({ password: e.target.value })
+              }
             />
           </div>
           <p>
-            Passwords must contain at least 1 upper case letter, 1 lower case letter and one number OR special charracter.
+            Passwords must contain at least 1 upper case letter, 1
+            lower case letter and one number OR special charracter.
           </p>
-          <hr/>
+          <hr />
           <div>
             <Button
               fullWidth

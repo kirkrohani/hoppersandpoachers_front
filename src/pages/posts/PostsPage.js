@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import { Fab, IconButton } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
-import SignOutIcon from '@material-ui/icons/ExitToApp'
+import SignOutIcon from '@material-ui/icons/ExitToApp';
 import styled from 'styled-components';
-import Task from '../../components/Task';
-import TasksFilters from '../../components/TasksFilters';
+import Post from '../../components/Post';
+import PostsFilters from '../../components/PostsFilters';
 
-const TasksWrapper = styled.div`
+const PostsWrapper = styled.div`
   width: 100%;
   max-width: 860px;
   margin: auto;
@@ -15,7 +15,7 @@ const TasksWrapper = styled.div`
   box-sizing: border-box;
 `;
 
-const TasksHeader = styled.div`
+const PostsHeader = styled.div`
   display: flex;
   justify-content: center;
   border-bottom: 3px solid #757c87;
@@ -33,11 +33,11 @@ const CreateButtonContainer = styled.div`
   align-items: center;
 `;
 
-const TasksContainer = styled.div`
+const PostsContainer = styled.div`
   padding-top: 20px;
 `;
 
-const EmptyTasksPlaceholder = styled.p`
+const EmptyPostsPlaceholder = styled.p`
   color: #edf4ff;
   text-align: center;
   font-size: 22px;
@@ -45,57 +45,63 @@ const EmptyTasksPlaceholder = styled.p`
 
 const SignOutIconContainer = styled.div`
   margin-left: 10px;
-  
+
   .signOutIcon {
     fill: #edf4ff;
   }
 `;
 
-@inject('tasksStore', 'routerStore', 'userStore')
+@inject('postsStore', 'routerStore', 'userStore')
 @observer
-class TasksPage extends Component {
+class PostsPage extends Component {
   componentDidMount() {
-    this.props.tasksStore.fetchTasks();
+    this.props.postsStore.fetchPosts();
   }
-  
+
   handleSignOut = () => {
-    const { userStore, tasksStore } = this.props;
+    const { userStore, postsStore } = this.props;
     userStore.signout();
-    tasksStore.resetTasks();
+    postsStore.resetPosts();
     window.location.hash = '/signin';
   };
 
-  renderTasks = () => {
-    const { tasksStore } = this.props;
+  renderPosts = () => {
+    const { postsStore } = this.props;
 
-    if (!tasksStore.tasks.length) {
-      return <EmptyTasksPlaceholder>No tasks available. Create one?</EmptyTasksPlaceholder>
+    if (!postsStore.posts.length) {
+      return (
+        <EmptyPostsPlaceholder>
+          No posts available. Create one?
+        </EmptyPostsPlaceholder>
+      );
     }
 
-    return tasksStore.tasks.map(task => (
-      <Task
-        key={task.id}
-        id={task.id}
-        title={task.title}
-        description={task.description}
-        status={task.status}
+    return postsStore.posts.map((post) => (
+      <Post
+        key={post.id}
+        id={post.id}
+        title={post.title}
+        description={post.description}
+        status={post.status}
       />
     ));
   };
 
   render() {
     return (
-      <TasksWrapper>
-        <TasksHeader>
-          <Title>Get things done.</Title>
+      <PostsWrapper>
+        <PostsHeader>
+          <Title>Message Board</Title>
 
           <CreateButtonContainer>
             <Fab
               variant="extended"
-              onClick={() => { window.location.hash = '/tasks/create'; }}
+              onClick={() => {
+                window.location.hash = '/posts/create';
+              }}
             >
               <AddIcon />
-              Create Task
+              Create Post
             </Fab>
 
             <SignOutIconContainer>
@@ -104,16 +110,14 @@ class TasksPage extends Component {
               </IconButton>
             </SignOutIconContainer>
           </CreateButtonContainer>
-        </TasksHeader>
+        </PostsHeader>
 
-        <TasksFilters />
+        <PostsFilters />
 
-        <TasksContainer>
-          {this.renderTasks()}
-        </TasksContainer>
-      </TasksWrapper>
+        <PostsContainer>{this.renderPosts()}</PostsContainer>
+      </PostsWrapper>
     );
   }
 }
 
-export default TasksPage;
+export default PostsPage;

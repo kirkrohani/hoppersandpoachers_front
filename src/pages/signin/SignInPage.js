@@ -39,7 +39,7 @@ class SignInPage extends Component {
 
     try {
       await this.props.userStore.signin(username, password);
-      window.location.hash = '/tasks';
+      window.location.hash = '/posts';
     } catch (error) {
       const errorMessage = error.response.data.message;
       this.setState({ errorMessage });
@@ -52,14 +52,15 @@ class SignInPage extends Component {
 
   render() {
     const { errorMessage } = this.state;
-
     return (
       <div className="fullscreen-wrapper">
         <FormContainer>
           <Heading>Hello!</Heading>
           <p>Fill in your username and password to sign in.</p>
-          
-          {errorMessage && <ErrorMessage message={this.state.errorMessage} />}
+
+          {errorMessage && (
+            <ErrorMessage message={this.state.errorMessage} />
+          )}
 
           <div>
             <FormField
@@ -67,7 +68,9 @@ class SignInPage extends Component {
               label="Username"
               margin="dense"
               variant="outlined"
-              onChange={e => this.setState({ username: e.target.value })}
+              onChange={(e) =>
+                this.setState({ username: e.target.value })
+              }
             />
           </div>
           <div>
@@ -77,10 +80,12 @@ class SignInPage extends Component {
               margin="dense"
               variant="outlined"
               type="password"
-              onChange={e => this.setState({ password: e.target.value })}
+              onChange={(e) =>
+                this.setState({ password: e.target.value })
+              }
             />
           </div>
-          <hr/>
+          <hr />
           <div>
             <Button
               style={{ marginBottom: '10px' }}

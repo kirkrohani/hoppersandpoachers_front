@@ -20,8 +20,8 @@ const FormContainer = styled.div`
   border-radius: 5px;
 `;
 
-@inject('tasksStore', 'routerStore')
-class CreateTaskPage extends Component {
+@inject('postsStore', 'routerStore')
+class CreatePostPage extends Component {
   constructor(props) {
     super(props);
 
@@ -32,13 +32,13 @@ class CreateTaskPage extends Component {
     };
   }
 
-  handleSubmitTask = async () => {
-    const { tasksStore } = this.props;
+  handleSubmitPost = async () => {
+    const { postsStore } = this.props;
     const { title, description } = this.state;
 
     try {
-      await tasksStore.createTask(title, description);
-      window.location.hash = '/tasks';
+      await postsStore.createPost(title, description);
+      window.location.hash = '/posts';
     } catch (error) {
       const errorMessage = error.response.data.message;
       this.setState({ errorMessage });
@@ -49,10 +49,14 @@ class CreateTaskPage extends Component {
     return (
       <FormWrapper>
         <FormContainer>
-          <h1>Create a new task</h1>
-          <p>Provide information about the task you wish to complete.</p>
+          <h1>Create a new Post</h1>
+          <p>
+            Provide information about the post you wish to complete.
+          </p>
 
-          { this.state.errorMessage && <ErrorMessage message={this.state.errorMessage} />}
+          {this.state.errorMessage && (
+            <ErrorMessage message={this.state.errorMessage} />
+          )}
 
           <FormControl fullWidth>
             <TextField
@@ -60,7 +64,9 @@ class CreateTaskPage extends Component {
               placeholder="Title"
               margin="normal"
               variant="outlined"
-              onChange={e => this.setState({ title: e.target.value })}
+              onChange={(e) =>
+                this.setState({ title: e.target.value })
+              }
             />
           </FormControl>
           <FormControl fullWidth>
@@ -71,7 +77,9 @@ class CreateTaskPage extends Component {
               rows="8"
               margin="normal"
               variant="outlined"
-              onChange={e => this.setState({ description: e.target.value })}
+              onChange={(e) =>
+                this.setState({ description: e.target.value })
+              }
             />
           </FormControl>
 
@@ -80,9 +88,9 @@ class CreateTaskPage extends Component {
             fullWidth
             variant="contained"
             color="primary"
-            onClick={this.handleSubmitTask}
+            onClick={this.handleSubmitPost}
           >
-            CREATE TASK
+            CREATE POST
           </Button>
         </FormContainer>
       </FormWrapper>
@@ -90,4 +98,4 @@ class CreateTaskPage extends Component {
   }
 }
 
-export default CreateTaskPage;
+export default CreatePostPage;
