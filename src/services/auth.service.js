@@ -7,10 +7,6 @@ export default class AuthService extends BaseHttpService {
       username,
       password,
     });
-    console.log(
-      'result received after signin: ',
-      result.data.signedToken
-    );
     const accessToken = result.data.signedToken;
     this.saveToken(accessToken);
     return result.data.username;
